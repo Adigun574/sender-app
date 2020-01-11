@@ -1,0 +1,11 @@
+.job-header{
+    color:white !important;
+    background-color: #6C63FF !important;
+}
+.post-title{
+    background-color: #6C63FF !important;
+    color:white;
+    font-weight:bolder;
+    text-align:center;
+    padding:5px;
+}
