@@ -2,11 +2,11 @@ import React from 'react';
 //import logo from './logo.svg';
 import './App.css';
 import Home from './components/Home';
-import Top from './components/Top';
+//import Top from './components/Top';
 import Login from './components/Login';
 import Register from './components/register';
 import SideNav from './components/SideNav';
-import Application from './components/Application';
+//import Application from './components/Application';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 function App() {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { FaClock } from 'react-icons/fa';
-import { Tabs, Tab, Card, Button, Container, Row, Col, Form, Nav } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Tab, Card, Container, Row, Col, Nav } from 'react-bootstrap';
+//import { Link } from 'react-router-dom';
 import avatar from '../images/avatar.png';
 
 class Application extends Component{
@@ -27,7 +26,7 @@ class Application extends Component{
                                 <Tab.Pane eventKey="first">
                                     <Col sm={6}>
                                         <Card>
-                                        <img src={avatar} height="50px" width="50px"/>  
+                                        <img src={avatar} height="50px" width="50px" alt=''/>  
                                         <h5>Firstname Lastname</h5>
                                         <h6>Skill1, skill2, skill3, skill4</h6>
                                         <div style={{display:'flex'}}>
@@ -40,7 +39,7 @@ class Application extends Component{
                                 <Tab.Pane eventKey="second">
                                     <Col sm={6}>
                                         <Card>
-                                        <img src={avatar} height="50px" width="50px"/>  
+                                        <img src={avatar} height="50px" width="50px" alt=''/>  
                                         <h5>Firstname Lastname</h5>
                                         <h6>Skill1, skill2, skill3, skill4</h6>
                                         <div style={{display:'flex'}}>

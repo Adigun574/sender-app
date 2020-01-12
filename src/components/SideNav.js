@@ -5,13 +5,14 @@ import Dashboard  from './Dashboard';
 import Profile from './Profile';
 import Jobs from './Jobs';
 import Application from './Application';
-import { FaEnvelope, FaUser, FaHome, FaReadme, FaAlignJustify, FaArchive, FaBriefcase } from 'react-icons/fa'
+import { FaEnvelope, FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase } from 'react-icons/fa'
 
 class SideNav extends React.Component {
   state = {
     state: {
       showNav: false
-    }
+    },
+    user:null
   }
   
 
@@ -44,6 +45,10 @@ class SideNav extends React.Component {
     if (e.key === "Escape") {
       this.closeNav()
     }
+  }
+
+  componentDidMount(){
+    this.setState({user:JSON.parse(localStorage.getItem('senderUser'))})
   }
 
   render() {
@@ -94,7 +99,8 @@ class SideNav extends React.Component {
             <span onClick={this.openNavClick} className="open-nav">
               &#9776; <FaEnvelope/> Sender
             </span>
-            <span style={{float:'right', position:'relative', top:'15px', right:'10px'}}><FaUser/> Username</span>
+            <span style={{float:'right', position:'relative', top:'15px', right:'10px'}}><FaUser/> 
+            {this.state.user? this.state.user.userName:''}</span>
           </div>
         <div
           onClick={this.navCoverClick}

@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import { FaClock } from 'react-icons/fa';
-import { Tabs, Tab, Card, Button, Container, Row, Col, Form } from 'react-bootstrap';
-import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
+import { Card, Container, Row, Col} from 'react-bootstrap';
+//import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import avatar from '../images/avatar.png';
 import '../css/Dashboard.css';
 
 class Dashboard extends Component{
+    state = {
+        user:null
+    }
     goToJobs = ()=>{
         this.props.history.push('/jobs')
+    }
+    componentDidMount(){
+        this.setState({user:JSON.parse(localStorage.getItem('senderUser'))})
     }
     render(){
         return (
@@ -15,10 +21,10 @@ class Dashboard extends Component{
                 <Container>
                     <div className="dashboard-top mt-4">
                         <div className="mr-4">
-                            <img src={avatar} height="100px" width="100px" className="image"/>
+                            <img src={avatar} height="100px" width="100px" className="image" alt=''/>
                         </div>
                         <div>
-                            <h5><b>Welcome Username</b></h5>
+                            <h5><b>Welcome {this.state.user?this.state.user.userName:''}</b></h5>
                             <p>Explore the jobs page where you can hire or be hired.</p>
                             <button className="btn job-button" onClick={this.goToJobs}>Go to Jobs</button>
                         </div>

@@ -33,3 +33,16 @@
             //             jklefksenfkwjkfn
             //         </Tab>
             //     </Tabs>
+
+
+    //         FaStar, FaPeriscope, FaLinkedin, FaSistrix, 
+    // FaAddressCard, FaAddressBook, FaCalendarAlt, FaCertificate, FaCheckCircle, FaCheckDouble, FaCheck,
+    // FaComment, FaClock, FaEdit, FaEnvelope, FaLink, FaList, FaMapMarkerAlt, FaStarHalfAlt,
+    // FaUserCog, FaUserEdit, FaUser, FaUsers, FaUsersCog, FaRegThumbsDown, FaRegThumbsUp, FaWhatsapp,
+    // FaGenderless, FaCalendar
+
+    // for (let key in this.state.profile){
+        //     if(this.state.profile.hasOwnProperty(key)){
+        //       console.log(`${key} : ${this.state.profile[key]}`)
+        //     }
+        //  }

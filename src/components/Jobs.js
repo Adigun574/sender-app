@@ -1,12 +1,30 @@
 import React, { Component } from 'react';
 import { FaClock, FaBriefcase, FaMapMarkerAlt } from 'react-icons/fa';
-import { Tabs, Tab, Card, Button, Container, Row, Col, Form, Modal, Toast } from 'react-bootstrap';
+import { Tabs, Tab, Card, Button, Container, Row, Col, Form, Modal } from 'react-bootstrap';
 import '../css/Job.css'
+
+const user = JSON.parse(localStorage.getItem('senderUser'))
+const d = new Date()
+const [day,month,year] = [d.getDate(), d.getMonth()+1, d.getFullYear()]
+console.log(day,month,year)
 
 class Jobs extends Component{
     state = {
         showModal:false,
-        showToast:false
+        showToast:false,
+        user:user,
+        job:{
+            title:'',
+            description:'',
+            location:'',
+            duration:'',
+            pay:'',
+            requirements:'',
+            type:'',
+            posterEmail:user.email,
+            datePosted:'',
+            employer:''
+        }
     }
     handleShowToast = ()=>{
         this.setState({
@@ -29,7 +47,56 @@ class Jobs extends Component{
             showModal:false
         })
     }
+    handleJobTitle = (e) =>{
+        let job = {...this.state.job}
+        job.title = e.target.value
+        this.setState({job:e.target.value})
+        this.setState({job})
+    }
+    handleEmployer = (e) =>{
+        let job = {...this.state.job}
+        job.employer = e.target.value
+        this.setState({job:e.target.value})
+        this.setState({job})
+    }
+    handleJobDescription = (e) =>{
+        let job = {...this.state.job}
+        job.description = e.target.value
+        this.setState({job:e.target.value})
+        this.setState({job})
+    }
+    handleLocation = (e) =>{
+        let job = {...this.state.job}
+        job.location = e.target.value
+        this.setState({job:e.target.value})
+        this.setState({job})
+    }
+    handleDuration = (e) =>{
+        let job = {...this.state.job}
+        job.duration = e.target.value
+        this.setState({job:e.target.value})
+        this.setState({job})
+    }
+    handlePay = (e) =>{
+        let job = {...this.state.job}
+        job.pay = e.target.value
+        this.setState({job:e.target.value})
+        this.setState({job})
+    }
+    handleRequirements = (e) =>{
+        let job = {...this.state.job}
+        job.requirements = e.target.value.split(',')
+        this.setState({job:e.target.value})
+        this.setState({job})
+    }
+    postJob = () =>{
+        console.log(this.state.job)
+    }
+    componentDidMount(){
+        
+    }
     render(){
+        const { job } = this.state
         return (
             <div>
                 {/* <Row>
@@ -118,39 +185,51 @@ class Jobs extends Component{
                         <Form>
                             <Form.Group controlId="formGridJt">
                                 <Form.Label>Job Title</Form.Label>
-                                <Form.Control placeholder="Plumber" />
+                                <Form.Control placeholder="Plumber" 
+                                    onChange={this.handleJobTitle} value={job.title}/>
+                            </Form.Group>
+
+                            <Form.Group controlId="formGridEmployer">
+                                <Form.Label>Employer</Form.Label>
+                                <Form.Control placeholder="Employer" 
+                                onChange={this.handleEmployer} value={job.employer}/>
                             </Form.Group>
 
                             <Form.Group controlId="formGridJd">
                                 <Form.Label>Job Description</Form.Label>
-                                <Form.Control placeholder="Looking for an experienced ........." />
+                                <Form.Control placeholder="Looking for an experienced ........." 
+                                onChange={this.handleJobDescription} value={job.description}/>
                             </Form.Group>
 
                             <Form.Group controlId="formGridSell">
                                 <Form.Label>Location</Form.Label>
-                                <Form.Control placeholder="Lekki, Lagos State" />
+                                <Form.Control placeholder="Lekki, Lagos State" 
+                                onChange={this.handleLocation} value={job.location}/>
                             </Form.Group>
 
-                            <Form.Group controlId="formGridLinkedin">
+                            <Form.Group controlId="formGridDuration">
                                 <Form.Label>Duration</Form.Label>
-                                <Form.Control placeholder="2 months" />
+                                <Form.Control placeholder="2 months" 
+                                onChange={this.handleDuration} value={job.duration}/>
                             </Form.Group>
 
-                            <Form.Group controlId="formGridLinkedin">
+                            <Form.Group controlId="formGridPay">
                                 <Form.Label>Pay(Range/Optional)</Form.Label>
-                                <Form.Control placeholder="N20000 - N30000" />
+                                <Form.Control placeholder="N20000 - N30000" 
+                                onChange={this.handlePay} value={job.pay}/>
                             </Form.Group>
 
                             <Form.Group controlId="formGridSkills">
                                 <Form.Label>Requirements (comma separated)</Form.Label>
-                                <Form.Control placeholder="javascript, plumbing, graphics design" />
+                                <Form.Control placeholder="javascript, plumbing, graphics design" 
+                                onChange={this.handleRequirements} value={job.requirements}/>
                             </Form.Group>
                             <Form.Group id="formGridCheckbox" style={{display:'flex'}}>
                                 <Form.Check type="radio" label="Part Time" name="Type" className="mr-4"/>
                                 <Form.Check type="radio" label="Full Time" name="Type"/>
                             </Form.Group>
                         </Form>
-                        <Button variant="primary" onClick={this.handleShowToast}>Post Job</Button>
+                        <Button variant="primary" onClick={this.postJob}>Post Job</Button>
                         </Card>
                         </Container>
                     </Tab>
