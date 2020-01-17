@@ -2,60 +2,84 @@ import React, { Component } from 'react';
 import { Tab, Card, Container, Row, Col, Nav } from 'react-bootstrap';
 //import { Link } from 'react-router-dom';
 import avatar from '../images/avatar.png';
+import axios from 'axios'
+
+const user = JSON.parse(localStorage.getItem('senderUser'))
 
 class Application extends Component{
+    state={
+        jobs:[],
+        applications:[]
+    }
+    componentDidMount(){
+        axios.get(`http://localhost:5000/jobs/getjobbyposteremail/${user.email}`)
+        .then(res=>{
+            //console.log(res)
+            this.setState({jobs:res.data.data}, this.getApplications)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+        this.getUserByEmail()
+    }
+    getApplications = ()=>{
+        this.state.jobs.forEach((job,index)=>{
+            axios.get(`http://localhost:5000/applications/getbyjobid/${job._id}`)
+            .then(res2=>{
+                this.setState({ applications: [...this.state.applications, res2.data.data] })
+            })
+            .catch(err=>{
+                console.log(err)
+            })
+        })
+    }
+    test = ()=>{
+        console.log(this.state.applications)
+    }
+    getUserByEmail = (email)=>{
+        axios.get(`http://localhost:5000/users/getuserbyemail/test2@gmail.com`)
+        .then(res=>{
+            return res.data.data,
+            console.log(res)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+
+    }
     render(){
         return (
             <div>
+                <button onClick={this.test}>test</button>
                 <Container>
-                    <div className="mt-4">
-                    <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-                        <Row>
-                            <Col sm={3}>
-                            <Nav varian="pills" className="flex-column">
-                                <Nav.Item>
-                                <Nav.Link eventKey="first">Plumber Job</Nav.Link>
-                                </Nav.Item>
-                                <Nav.Item>
-                                <Nav.Link eventKey="second">Nanny Job</Nav.Link>
-                                </Nav.Item>
-                            </Nav>
-                            </Col>
-                            <Col sm={9}>
-                            <Tab.Content>
-                                <Tab.Pane eventKey="first">
+                <div className="mt-4">
+                    {this.state.jobs.map((job,index)=>{
+                    return (<div key={job._id}>
+                            <div>{job.title}</div>
+                            <Col>
+                            {this.state.applications[index] ? this.state.applications[index].map(application=>{
+                                return <div key={application._id}>
                                     <Col sm={6}>
                                         <Card>
                                         <img src={avatar} height="50px" width="50px" alt=''/>  
-                                        <h5>Firstname Lastname</h5>
-                                        <h6>Skill1, skill2, skill3, skill4</h6>
+                                        <h5>{application._id}</h5>
+                                        <h6>{application._jobId}</h6>
                                         <div style={{display:'flex'}}>
                                             <button className="btn btn-primary">Accept</button>
                                             <button className="btn btn-danger">Decline</button>
                                         </div>
                                         </Card>
                                     </Col>
-                                </Tab.Pane>
-                                <Tab.Pane eventKey="second">
-                                    <Col sm={6}>
-                                        <Card>
-                                        <img src={avatar} height="50px" width="50px" alt=''/>  
-                                        <h5>Firstname Lastname</h5>
-                                        <h6>Skill1, skill2, skill3, skill4</h6>
-                                        <div style={{display:'flex'}}>
-                                            <button className="btn btn-primary">Accept</button>
-                                            <button className="btn btn-danger">Decline</button>
-                                        </div>
-                                        </Card>
-                                    </Col>
-                                </Tab.Pane>
-                            </Tab.Content>
+                                </div>
+                            })
+                            :'null'}                            
                             </Col>
-                        </Row>
-                    </Tab.Container>
-                    </div>
+                            </div>
+                            )
+                    })}
+                </div>
                 </Container>               
-            </div>
+            </div>                   
                 )
     }
 
@@ -63,3 +87,4 @@ class Application extends Component{
 
 
 export default Application
+

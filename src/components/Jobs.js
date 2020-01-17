@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FaClock, FaBriefcase, FaMapMarkerAlt } from 'react-icons/fa';
 import { Tabs, Tab, Card, Button, Container, Row, Col, Form, Modal } from 'react-bootstrap';
 import '../css/Job.css'
+import axios from 'axios'
 
 const user = JSON.parse(localStorage.getItem('senderUser'))
 const d = new Date()
@@ -24,7 +25,15 @@ class Jobs extends Component{
             posterEmail:user.email,
             datePosted:'',
             employer:''
-        }
+        },
+        jobs:[],
+        currentJob:{},
+        bidding:{
+            applicantEmail:user.email,
+            jobId:null,
+            status:'pending'
+        },
+        jobid:''
     }
     handleShowToast = ()=>{
         this.setState({
@@ -37,10 +46,11 @@ class Jobs extends Component{
             showToast:false
         })
     }
-    handleShowModal = () =>{
+    handleShowModal = (e) =>{
         this.setState({
             showModal:true
         })
+        this.setState({currentJob:e})
     }
     handleCloseModal = () =>{
         this.setState({
@@ -89,11 +99,42 @@ class Jobs extends Component{
         this.setState({job:e.target.value})
         this.setState({job})
     }
+    handleBidJob = (e) =>{
+        let bidding = {...this.state.bidding}
+        bidding.jobId = e
+        this.setState({bidding:e})
+        this.setState({bidding},this.postBidding)
+    }
+    postBidding = () =>{
+        console.log(this.state.bidding)
+        axios.post('http://localhost:5000/applications/add',this.state.bidding)
+        .then(res=>{
+            console.log(res)
+            this.handleCloseModal()
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
     postJob = () =>{
         console.log(this.state.job)
+        axios.post('http://localhost:5000/jobs/add',this.state.job)
+        .then(res=>{
+            console.log(res)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+
     }
     componentDidMount(){
-        
+       axios.get('http://localhost:5000/jobs/getall')
+       .then(res=>{
+           this.setState({jobs:res.data.data})
+       })
+       .catch(err=>{
+           console.log(err)
+       })
     }
     render(){
         const { job } = this.state
@@ -119,62 +160,22 @@ class Jobs extends Component{
                     <Tab eventKey="View Jobs" title="View Jobs">
                     <Container>
                         <Row>
-                            <Col sm={6}>
-                                <Card className="text-center mt-4">
-                                    <Card.Header className="job-header"><FaBriefcase/> <b>Job Title</b></Card.Header>
-                                    <Card.Body>
-                                        <Card.Title>Employer</Card.Title>
-                                        <Card.Text>
-                                        With supporting text below as a natural lead-in to additional content. JD
-                                        </Card.Text><br/>
-                                        <i><FaMapMarkerAlt style={{color:'#6C63FF'}}/> location (pay range | Full Time)</i><br/>
-                                        <Button variant="primary" onClick={this.handleShowModal}>View Details</Button>
-                                    </Card.Body>
-                                    <Card.Footer className="text-muted"><FaClock/> 2 days ago</Card.Footer>
-                                </Card>
-                            </Col>
-                            <Col sm={6}>
-                                <Card className="text-center mt-4">
-                                    <Card.Header className="job-header"><FaBriefcase/> <b>Job Title</b></Card.Header>
-                                    <Card.Body>
-                                        <Card.Title>Employer</Card.Title>
-                                        <Card.Text>
-                                        With supporting text below as a natural lead-in to additional content. JD
-                                        </Card.Text><br/>
-                                        <i><FaMapMarkerAlt style={{color:'#6C63FF'}}/> location (pay range | Full Time)</i><br/>
-                                        <Button variant="primary" onClick={this.handleShowModal}>View Details</Button>
-                                    </Card.Body>
-                                    <Card.Footer className="text-muted"><FaClock/> 2 days ago</Card.Footer>
-                                </Card>
-                            </Col>
-                            <Col sm={6}>
-                                <Card className="text-center mt-4">
-                                    <Card.Header className="job-header"><FaBriefcase/> <b>Job Title</b></Card.Header>
-                                    <Card.Body>
-                                        <Card.Title>Employer</Card.Title>
-                                        <Card.Text>
-                                        With supporting text below as a natural lead-in to additional content. JD
-                                        </Card.Text><br/>
-                                        <i><FaMapMarkerAlt style={{color:'#6C63FF'}}/> location (pay range | Full Time)</i><br/>
-                                        <Button variant="primary" onClick={this.handleShowModal}>View Details</Button>
-                                    </Card.Body>
-                                    <Card.Footer className="text-muted"><FaClock/> 2 days ago</Card.Footer>
-                                </Card>
-                            </Col>
-                            <Col sm={6}>
-                                <Card className="text-center mt-4">
-                                    <Card.Header className="job-header"><FaBriefcase/> <b>Job Title</b></Card.Header>
-                                    <Card.Body>
-                                        <Card.Title>Employer</Card.Title>
-                                        <Card.Text>
-                                        With supporting text below as a natural lead-in to additional content. JD
-                                        </Card.Text><br/>
-                                        <i><FaMapMarkerAlt style={{color:'#6C63FF'}}/> location (pay range | Full Time)</i><br/>
-                                        <Button variant="primary" onClick={this.handleShowModal}>View Details</Button>
-                                    </Card.Body>
-                                    <Card.Footer className="text-muted"><FaClock/> 2 days ago</Card.Footer>
-                                </Card>
-                            </Col>
+                            {this.state.jobs.map(job=>{
+                                return  <Col sm={6} key={job._id}>
+                                            <Card className="text-center mt-4">
+                                                <Card.Header className="job-header"><FaBriefcase/> <b>{job.title}</b></Card.Header>
+                                                <Card.Body>
+                                                    <Card.Title>{job.employer}</Card.Title>
+                                                    <Card.Text>
+                                                    {job.description}
+                                                    </Card.Text><br/>
+                                                    <i><FaMapMarkerAlt style={{color:'#6C63FF'}}/> {job.location} ({job.pay} | Full Time)</i><br/>
+                                                    <Button variant="primary" onClick={()=>this.handleShowModal(job)}>View Details</Button>
+                                                </Card.Body>
+                                                <Card.Footer className="text-muted"><FaClock/> 2 days ago</Card.Footer>
+                                            </Card>
+                                        </Col>
+                            })}
                         </Row>
                     </Container>
                     </Tab>
@@ -235,24 +236,33 @@ class Jobs extends Component{
                     </Tab>
                 </Tabs>
 
-                <Modal show={this.state.showModal}>
-                    <Modal.Header closeButton>
-                    <Modal.Title>JOB TITLE</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum
-                        Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum
-                        Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum
-                        Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum
-                        Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum
-                        Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum Lorem ipsum lorem ipsum
-                    </Modal.Body>
-                    <Modal.Footer>
-                    <Button variant="primary" onClick={this.handleCloseModal}>
-                        Bid For Job
-                    </Button>
-                    </Modal.Footer>
-                </Modal>
+                        <Modal show={this.state.showModal}>
+                            <Modal.Header closeButton>
+                            <Modal.Title>{this.state.currentJob.title}</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <b>Employer: </b>{this.state.currentJob.employer}<br/>
+                                <b>Description: </b>{this.state.currentJob.description}<br/>
+                                <b>Requirements: </b>
+                                {/* <ul>
+                                    {this.state.currentJob.requirements.map(req=>{
+                                        return req
+                                    })}
+                                </ul> */}
+                                {this.state.currentJob.requirements}<br/>
+                                <b>Location: </b>{this.state.currentJob.location}<br/>
+                                <b>Duration: </b>{this.state.currentJob.duration}<br/>
+                                <b>Pay: </b>{this.state.currentJob.pay}<br/>
+                                <b>Type: </b>{this.state.currentJob.type}<br/>
+                                <b>Date Posted: </b>{this.state.currentJob.datePosted}<br/>
+                            </Modal.Body>
+                            <Modal.Footer>
+                            <Button variant="primary" onClick={()=>{this.handleBidJob(this.state.currentJob._id)}}>
+                                Bid For Job
+                            </Button>
+                            </Modal.Footer>
+                        </Modal>
+
 
             </div>
                 )

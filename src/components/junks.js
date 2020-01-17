@@ -46,3 +46,57 @@
         //       console.log(`${key} : ${this.state.profile[key]}`)
         //     }
         //  }
+
+
+         {/* <div className="mt-4">
+                    {this.state.jobs.map((job,index)=>{
+            return <Tab.Container id="left-tabs-example" defaultActiveKey="first" key={job._id}>
+                        <Row>
+                            <Col sm={3}>
+                            <Nav varian="pills" className="flex-column">
+                                <Nav.Item>
+                                <Nav.Link eventKey="first">{job.title}</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
+                            </Col>
+                            <Col sm={9}>
+                            {this.state.applications[index] ? this.state.applications[index].map(application=>{
+                                return <Tab.Content key={application._id}>
+                                    <Tab.Pane eventKey="first">
+                                        <Col sm={6}>
+                                            <Card>
+                                            <img src={avatar} height="50px" width="50px" alt=''/>  
+                                            <h5>{application.jobId}</h5>
+                                            <h6>Skill1, skill2, skill3, skill4</h6>
+                                            <div style={{display:'flex'}}>
+                                                <button className="btn btn-primary">Accept</button>
+                                                <button className="btn btn-danger">Decline</button>
+                                            </div>
+                                            </Card>
+                                        </Col>
+                                    </Tab.Pane>
+                                </Tab.Content>
+                            }):'null'}
+                            
+                            </Col>
+                        </Row>
+                    </Tab.Container>
+                    })}
+                    </div> */}
+
+
+                    {/* <Tab.Content>
+                                <Tab.Pane eventKey="first">
+                                    <Col sm={6}>
+                                        <Card>
+                                        <img src={avatar} height="50px" width="50px" alt=''/>  
+                                        <h5>Firstname Lastname</h5>
+                                        <h6>Skill1, skill2, skill3, skill4</h6>
+                                        <div style={{display:'flex'}}>
+                                            <button className="btn btn-primary">Accept</button>
+                                            <button className="btn btn-danger">Decline</button>
+                                        </div>
+                                        </Card>
+                                    </Col>
+                                </Tab.Pane>
+                            </Tab.Content> */}
