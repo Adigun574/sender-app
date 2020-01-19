@@ -1,66 +1,80 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import wallet from '../images/wallet.png';
-import { FaBeer, FaAmazon} from 'react-icons/fa';
+import interview from '../images/interview.png';
+import { FaUsers, FaAddressCard, FaMoneyBillWave, FaBriefcase} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import Top from './Top.js'
+import '../css/home.css';
 
 class Home extends Component{
     render(){
         return (
             <div>
-                <Top />
-                <Container style={bodyStyle}>
-                <Row>
-                    <Col sm={6} style={{marginTop:'50px', textAlign:'center'}}>
-                        <h2><b>Sender Application</b></h2>
-                        <h5>Are you looking to hire professionals or artisans, permanent or contract job? This is a platform to connect employees and employers.</h5>
-                        <div style={buttons} className="mt-4">
-                            <Link to="/login"><button style={startedButton}>Login</button></Link>
-                            <Link to="/register"><button style={helpButton}>Signup</button></Link>
-                        </div>
-                    </Col>   
-                    <Col sm={6}>
-                        <img src={wallet} alt="aworan" heigh="100%" width="100%" style={imgStyle} className="mt-4"/>
-                    </Col>
-                </Row>
-                </Container>
-
+                <div>
+                    <h3 className="top-head"><FaBriefcase/> JobIt</h3>
+                </div>
+                <div className="circle">                    
+                </div>
                 <Container>
-                <Row>
-                    <Col sm={6}>
-                        <div className="card p-4 mt-4 text-center" style={cardStyle}>
-                            <h1><FaBeer /></h1>
-                            <h5><b>Easy To Use</b></h5>
-                            <hr style={hrStyle}></hr>
-                            <h5>Lorem ipsum dolor. Lorem ipsum dolor. Lorem ipsum dolor. Lorem ipsum dolor.</h5>
-                        </div>
+                    <Row className="mt-4 top-info">
+                    <Col sm={6} className="intro-text">
+                    <h2 className="gray-color"><b>Hire or Get Hired</b></h2>
+                    <h5 className="gray-color">Are you looking to hire professionals or artisans, permanent or contract job? Searching for jobs? This is a platform to connect employees and employers.</h5>
+                    <div style={buttons} className="mt-4">
+                        <Link to="/login"><button style={startedButton}>Login</button></Link>
+                        <Link to="/register"><button style={helpButton}>Signup</button></Link>
+                    </div>
                     </Col>
                     <Col sm={6}>
-                        <div className="card p-4 mt-4 text-center" style={cardStyle}>
-                            <h1><FaAmazon/></h1>
-                            <h5><b>Easy To Use</b></h5>
-                            <hr style={hrStyle}></hr>
-                            <h5>Lorem ipsum dolor. Lorem ipsum dolor. Lorem ipsum dolor. Lorem ipsum dolor.</h5>
+                        <img src={interview} alt="aworan" heigh="100%" width="100%" style={imgStyle} className="mt-4"/>
+                    </Col>
+                    </Row>
+                </Container>
+                <Container className="mt-3 mb-4" >
+                <Row className="footer-bottom" style={{display:'flex',justifyContent:'center'}}>
+                    <Col sm={4} className="bottom-card mt-2">
+                        <div style={{display:'flex'}}>
+                            <div>
+                                <FaUsers className="bottom-icon mt-2"/>
+                            </div>
+                            <div>
+                                <p className="mb-0"><b>Community</b></p>
+                                <p className="mb-0">Navigate through a large community of potential employers and employees.</p>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col sm={4} className="bottom-card mt-2">
+                        <div style={{display:'flex'}}>
+                            <div>
+                                <FaAddressCard className="bottom-icon mt-2"/>
+                            </div>
+                            <div>
+                                <p className="mb-0"><b>Profile</b></p>
+                                <p className="mb-0">Comprehensive profile which enables potential employees know you better.</p>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col sm={4} className="bottom-card mt-2">
+                        <div style={{display:'flex'}}>
+                            <div>
+                                <FaMoneyBillWave className="bottom-icon mt-2"/>
+                            </div>
+                            <div>
+                                <p className="mb-0"><b>Free</b></p>
+                                <p className="mb-0">Free to use</p>
+                            </div>
                         </div>
                     </Col>
                 </Row>
                 </Container>
+                               
             </div>
         )
     }
 
 }
 
-const bodyStyle={
-    // color:'#FD9309',
-    // color:'#FD3909',
-    color:'#6C63FF',
-    height:'100%'
-}
 const startedButton={
     color:'white',
-    // backgroundColor:'#FD3909',
     backgroundColor:'#6C63FF',
     borderRadius:'20px',
     border:'none',
@@ -70,12 +84,10 @@ const startedButton={
     cursor:'pointer'
 }
 const helpButton={
-    //color:'#FD3909',
     color:'#6C63FF',
     backgroundColor:'white',
     borderRadius:'20px',
-    // border:'1px solid #FD3909',
-    border:'1px solid #6C63FF',
+    border:'2px solid #6C63FF',
     height:'40px',
     width:'150px',
     cursor:'pointer'
@@ -87,20 +99,7 @@ const buttons={
     marginLeft:'auto'
 }
 const imgStyle={
-   
+   borderRadius:'5px',
 }
-
-const hrStyle={
-    // color:'#FD3909',
-    color:'#6C63FF',
-    width:'50%'
-}
-
-const cardStyle={
-    boxShadow:'3px 3px 5px #CFCFCF, -3px -3px 5px #CFCFCF',
-    // color:'#FD3909'
-    color: '#6C63FF'
-}
-
 
 export default Home

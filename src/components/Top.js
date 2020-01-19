@@ -1,20 +1,17 @@
-import React, { Component } from 'react';
-import { FaEnvelope } from 'react-icons/fa';
+import React from 'react';
+import { FaBriefcase } from 'react-icons/fa';
 
-class Top extends Component{
-    render(){
-        return (
-            <div>
-                <h3 style={heading}><FaEnvelope/> Sender</h3>
-            </div>
-                )
-    }
-
+const Top = ()=>{
+    return(
+        <div>
+            <h3 style={heading}><FaBriefcase/> JobIt</h3>
+        </div>
+    )
 }
 
 const heading={
-    backgroundColor:'#6C63FF',
-    color:'white',
+    backgroundColor:'#eee',
+    color:'#6C63FF',
     padding:'10px',
     marginBottom:'0'
 }

@@ -7,14 +7,14 @@
     padding:20px 10px;
     box-shadow: 2px 2px 5px #555, -2px -2px 5px #555;
     margin-top: 30px;
-    background-image: linear-gradient(0deg, #6C63FF, rgba(107, 99, 255, 0.459));
+    background-color:white;
   }
 
 
   .fauser{
       border-radius:50%;
-      background-color:white;
-      color:#6C63FF;
+      background-color:#6C63FF;
+      color:white;
       padding:10px;
       font-size:5rem;
       text-align:center;
@@ -25,15 +25,15 @@
   }
   
    .loginField{
-       border:none !important;
-       border-bottom:1px solid white !important;
+    border:none !important;
+    border-bottom:1px solid #6C63FF !important;
    }
 
    .login{
-    background-color: white;
-    color:#6C63FF;
+    background-color:#6C63FF;
+    color:white;
     border-radius: 20px;
-    padding:10px;
+    padding:5px;
     text-align: center;
     cursor:pointer;
    }
@@ -46,8 +46,8 @@
 
    .body{
     background-color: rgb(228, 225, 225);
-    height:100vh;
+    height:130vh;
     margin-top:0 !important; 
-}
+    }
   
   

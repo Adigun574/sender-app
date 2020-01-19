@@ -1,0 +1,11 @@
+.job-title{
+    background-color: #6C63FF !important;
+    color:white;
+    padding:5px;
+}
+.image-name{
+    display:flex;
+}
+.application-name{
+    margin-top:50px;
+}

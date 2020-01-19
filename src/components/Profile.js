@@ -257,7 +257,7 @@ class Profile extends Component{
         {/* PERSONAL MODAL STARTS*/}
 
 
-      <Modal show={this.state.showPersonalModal}>
+      <Modal show={this.state.showPersonalModal} onHide={this.handleClosePersonalModal}>
         <Modal.Header closeButton>
           <Modal.Title>PERSONAL INFO</Modal.Title>
         </Modal.Header>
@@ -332,7 +332,7 @@ class Profile extends Component{
 
       {/* PROFESSIONAL MODAL STARTS */}
 
-      <Modal show={this.state.showProfessionalModal}>
+      <Modal show={this.state.showProfessionalModal} onHide={this.handleCloseProfessionalModal}>
         <Modal.Header closeButton>
           <Modal.Title>PROFESSIONAL INFO</Modal.Title>
         </Modal.Header>

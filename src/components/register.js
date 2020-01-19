@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 import { FaUser } from 'react-icons/fa';
 import Top from './Top.js';
-import axios from 'axios'
+import axios from 'axios';
+import { Container, Row, Col } from 'react-bootstrap';
+import "../css/register.css";
+import { Link } from 'react-router-dom';
+import Loader from "./Loader";
 
 class Register extends Component{
     state = {
@@ -35,6 +39,10 @@ class Register extends Component{
             <div>
                 <Top />
             <div className="body">
+            <h3 className="login-text">Signup</h3>
+            <Container>
+                <Row>
+                <Col md={4} className="mr-4">
                 <div className="loginForm">
                     <div className="logo">
                         <FaUser  className="fauser"/>
@@ -69,10 +77,23 @@ class Register extends Component{
                         <input type="password" className="form-control loginField" 
                             placeholder="password" name="rePassword" onChange={this.handleInput}/>
                     </div>
+                    <Loader/>
                     <div>
                         <h3 className="login" onClick={this.signup}>Signup</h3>
                     </div>
+                    <Link to="/login"><small className="forget">Login?</small></Link>
                 </div>
+                </Col>
+                <Col md={7}>
+                    <div className="side-box">
+                        <div className="box-content">
+                            <h4 className="side-hire">Hire or Get Hired</h4>
+                            <h6 className="side-learn">Learn more</h6>
+                        </div>
+                    </div>
+                </Col>
+                </Row>
+            </Container>
             </div>
             </div>
                 )

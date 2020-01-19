@@ -5,7 +5,8 @@ import Dashboard  from './Dashboard';
 import Profile from './Profile';
 import Jobs from './Jobs';
 import Application from './Application';
-import { FaEnvelope, FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase } from 'react-icons/fa'
+import { FaEnvelope, FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase, FaPowerOff } from 'react-icons/fa';
+import { Dropdown } from 'react-bootstrap';
 
 class SideNav extends React.Component {
   state = {
@@ -45,6 +46,10 @@ class SideNav extends React.Component {
     if (e.key === "Escape") {
       this.closeNav()
     }
+  }
+
+  logout = ()=>{
+    this.props.history.push('')
   }
 
   componentDidMount(){
@@ -99,7 +104,17 @@ class SideNav extends React.Component {
             <span onClick={this.openNavClick} className="open-nav">
               &#9776; <FaEnvelope/> Sender
             </span>
-            <span style={{float:'right', position:'relative', top:'15px', right:'10px'}}><FaUser/> 
+            <span style={{float:'right', position:'relative', top:'15px', right:'10px', cursor:'pointer'}}>
+            <Dropdown style={{display:'inline', position:'relative', bottom:'10px'}}>
+              <Dropdown.Toggle>
+                <FaUser/>
+              </Dropdown.Toggle>
+
+              <Dropdown.Menu>
+                <Dropdown.Item onClick={this.logout}><FaPowerOff/> Logout</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            {/* <FaUser/>   */}
             {this.state.user? this.state.user.userName:''}</span>
           </div>
         <div

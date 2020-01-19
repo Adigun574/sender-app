@@ -7,7 +7,7 @@ import axios from 'axios'
 const user = JSON.parse(localStorage.getItem('senderUser'))
 const d = new Date()
 const [day,month,year] = [d.getDate(), d.getMonth()+1, d.getFullYear()]
-console.log(day,month,year)
+const date = `${day}-${month}-${year}`
 
 class Jobs extends Component{
     state = {
@@ -23,7 +23,7 @@ class Jobs extends Component{
             requirements:'',
             type:'',
             posterEmail:user.email,
-            datePosted:'',
+            datePosted:date,
             employer:''
         },
         jobs:[],
@@ -31,7 +31,8 @@ class Jobs extends Component{
         bidding:{
             applicantEmail:user.email,
             jobId:null,
-            status:'pending'
+            status:'pending',
+            applicant:null
         },
         jobid:''
     }
@@ -107,14 +108,16 @@ class Jobs extends Component{
     }
     postBidding = () =>{
         console.log(this.state.bidding)
-        axios.post('http://localhost:5000/applications/add',this.state.bidding)
-        .then(res=>{
-            console.log(res)
-            this.handleCloseModal()
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+        
+            axios.post('http://localhost:5000/applications/add',this.state.bidding)
+            .then(res=>{
+                console.log(res)
+                this.handleCloseModal()
+            })
+            .catch(err=>{
+                console.log(err)
+            })        
+        
     }
     postJob = () =>{
         console.log(this.state.job)
@@ -127,6 +130,19 @@ class Jobs extends Component{
         })
 
     }
+    getProfile = () =>{
+        axios.post('http://localhost:5000/profiles/getone',{email:user.email})
+        .then(res=>{
+            //this.setState({profile:res.data.msg})
+            let bidding = {...this.state.bidding}
+            bidding.applicant = res.data.msg
+            this.setState({bidding:res.data.msg})
+            this.setState({bidding})
+        })
+        .catch(err=>{
+            console.log(err)
+        })   
+    }
     componentDidMount(){
        axios.get('http://localhost:5000/jobs/getall')
        .then(res=>{
@@ -135,6 +151,7 @@ class Jobs extends Component{
        .catch(err=>{
            console.log(err)
        })
+       this.getProfile()
     }
     render(){
         const { job } = this.state
@@ -167,12 +184,17 @@ class Jobs extends Component{
                                                 <Card.Body>
                                                     <Card.Title>{job.employer}</Card.Title>
                                                     <Card.Text>
-                                                    {job.description}
-                                                    </Card.Text><br/>
+                                                    {job.description.split('').length>14?
+                                                    `${job.description.split('').splice(0,40).join('')} ...`:
+                                                    job.description}<br/><br/>
                                                     <i><FaMapMarkerAlt style={{color:'#6C63FF'}}/> {job.location} ({job.pay} | Full Time)</i><br/>
-                                                    <Button variant="primary" onClick={()=>this.handleShowModal(job)}>View Details</Button>
+                                                    <Button onClick={()=>this.handleShowModal(job)}
+                                                        style={{backgroundColor:'#6C63FF'}}>
+                                                        View Details
+                                                    </Button>
+                                                    </Card.Text>                                                    
                                                 </Card.Body>
-                                                <Card.Footer className="text-muted"><FaClock/> 2 days ago</Card.Footer>
+                                                <Card.Footer className="text-muted"><FaClock/> {job.datePosted}</Card.Footer>
                                             </Card>
                                         </Col>
                             })}
@@ -236,7 +258,7 @@ class Jobs extends Component{
                     </Tab>
                 </Tabs>
 
-                        <Modal show={this.state.showModal}>
+                        <Modal show={this.state.showModal} onHide={this.handleCloseModal}>
                             <Modal.Header closeButton>
                             <Modal.Title>{this.state.currentJob.title}</Modal.Title>
                             </Modal.Header>
@@ -244,12 +266,11 @@ class Jobs extends Component{
                                 <b>Employer: </b>{this.state.currentJob.employer}<br/>
                                 <b>Description: </b>{this.state.currentJob.description}<br/>
                                 <b>Requirements: </b>
-                                {/* <ul>
-                                    {this.state.currentJob.requirements.map(req=>{
-                                        return req
-                                    })}
-                                </ul> */}
-                                {this.state.currentJob.requirements}<br/>
+                                <ul>
+                                    {this.state.currentJob.requirements?this.state.currentJob.requirements.map(req=>{
+                                        return <li key={req} style={{listStyleType:'disc'}}>{req}</li>
+                                    }):'nil'}
+                                </ul>
                                 <b>Location: </b>{this.state.currentJob.location}<br/>
                                 <b>Duration: </b>{this.state.currentJob.duration}<br/>
                                 <b>Pay: </b>{this.state.currentJob.pay}<br/>
@@ -258,7 +279,7 @@ class Jobs extends Component{
                             </Modal.Body>
                             <Modal.Footer>
                             <Button variant="primary" onClick={()=>{this.handleBidJob(this.state.currentJob._id)}}>
-                                Bid For Job
+                                Apply
                             </Button>
                             </Modal.Footer>
                         </Modal>

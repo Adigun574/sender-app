@@ -1,4 +1,4 @@
-  .loginForm{
+  /* .loginForm{
     width:340px;
     margin:0 auto;
     color:white;
@@ -53,12 +53,130 @@
    }
   
    .body{
-       background-color: rgb(228, 225, 225);
        height:100vh;
-       margin-top:0 !important; 
+       margin-top:0 !important;
+       background-image: linear-gradient(90deg, rgb(59, 114, 243), #2037A1); 
    }
 
    .text-center{
        text-align:center
    }
   
+   .login-text{
+       color:white;
+       font-weight:bolder;
+       text-align:center;
+   } */
+   .loginForm{
+    width:340px;
+    margin:0 auto;
+    color:white;
+    border-radius:10px;
+    padding:20px 10px;
+    box-shadow: 2px 2px 5px #555, -2px -2px 5px #555;
+    margin-top: 30px;
+    background-color:white;
+  }
+
+
+  .fauser{
+      border-radius:50%;
+      background-color:#6C63FF;
+      color:color;
+      padding:10px;
+      font-size:5rem;
+      text-align:center;
+      width:25%;
+      margin-left:auto;
+      margin-right:auto;
+      margin-bottom:20px;
+      display: flex;
+      justify-content: center
+  }
+  
+   .loginField{
+       border:none !important;
+       border-bottom:1px solid #6C63FF !important;
+   }
+
+   .login{
+    border-radius: 20px;
+    width:50%;
+    padding:5px;
+    text-align: center;
+    cursor: pointer;
+    background-color:#6C63FF;
+    color:white;
+    margin:auto;
+   }
+
+   .login:hover{
+    background-color:#6C63FF;
+    color:white;
+    border:1px solid white;
+   }
+  
+   .forget{
+    text-align:center;
+    text-decoration: underline;
+    cursor:pointer;
+    color:#6C63FF;
+   }
+
+   .remember{
+       color:#6C63FF;
+   }
+  
+   .body{
+       height:100vh;
+       margin-top:0 !important;
+       background-image: linear-gradient(90deg, rgb(59, 114, 243), #2037A1); 
+   }
+
+   .text-center{
+       text-align:center
+   }
+  
+   .login-text{
+       color:white;
+       font-weight:bolder;
+       text-align:center;
+   }
+   .side-box{
+       width:100%;
+       height:93%;
+       background-color:#6C63FF;
+       position:relative;
+       top:30px;
+       box-shadow: 2px 2px 5px #555, -2px -2px 5px #555;
+       border-radius:10px;
+       position:relative;
+   }
+   .side-hire{
+       color:white;
+       text-align:center;
+   }
+   .side-learn{
+       color:white;
+       border:2px solid white;
+       border-radius:20px;
+       padding:5px;
+       cursor:pointer;
+       text-align:center;
+   }
+   .box-content{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+   }
+   @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    .side-box{
+        display:none
+    }
+}
+@media only screen and (min-width : 320px) and (max-width : 785px) {
+    .side-box{
+        display:none
+    }
+}

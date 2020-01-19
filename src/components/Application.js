@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Tab, Card, Container, Row, Col, Nav } from 'react-bootstrap';
+import { Card, Container, Col } from 'react-bootstrap';
 //import { Link } from 'react-router-dom';
 import avatar from '../images/avatar.png';
 import axios from 'axios'
+import '../css/application.css'
+import { FaMapMarkerAlt } from 'react-icons/fa'
 
 const user = JSON.parse(localStorage.getItem('senderUser'))
 
@@ -20,7 +22,7 @@ class Application extends Component{
         .catch(err=>{
             console.log(err)
         })
-        this.getUserByEmail()
+        //this.getUserByEmail()
     }
     getApplications = ()=>{
         this.state.jobs.forEach((job,index)=>{
@@ -36,17 +38,17 @@ class Application extends Component{
     test = ()=>{
         console.log(this.state.applications)
     }
-    getUserByEmail = (email)=>{
-        axios.get(`http://localhost:5000/users/getuserbyemail/test2@gmail.com`)
-        .then(res=>{
-            return res.data.data,
-            console.log(res)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+    // getUserByEmail = (email)=>{
+    //     axios.get(`http://localhost:5000/users/getuserbyemail/test2@gmail.com`)
+    //     .then(res=>{
+    //         return res.data.data,
+    //         console.log(res)
+    //     })
+    //     .catch(err=>{
+    //         console.log(err)
+    //     })
 
-    }
+    // }
     render(){
         return (
             <div>
@@ -54,16 +56,24 @@ class Application extends Component{
                 <Container>
                 <div className="mt-4">
                     {this.state.jobs.map((job,index)=>{
-                    return (<div key={job._id}>
-                            <div>{job.title}</div>
+                    return (<Card key={job._id} className="mb-4">
+                            <div>
+                            <div className="job-title mb-4 text-center">{job.title}</div>
                             <Col>
                             {this.state.applications[index] ? this.state.applications[index].map(application=>{
                                 return <div key={application._id}>
                                     <Col sm={6}>
                                         <Card>
-                                        <img src={avatar} height="50px" width="50px" alt=''/>  
-                                        <h5>{application._id}</h5>
-                                        <h6>{application._jobId}</h6>
+                                        <div className="image-name">
+                                            <img src={avatar} height="150px" width="150px" alt='' className="image"/>  
+                                            <h6 className="application-name">{application.applicant.firstName} {application.applicant.lastName}</h6>
+                                        </div>
+                                        <h6><FaMapMarkerAlt/> {application.applicant.location}</h6>
+                                        <h6>{application.applicant.email}</h6>
+                                        <h6>{application.applicant.phone}</h6>
+                                        <ul>{application.applicant.skills.map(skill=>{
+                                            return <li key={skill} style={{listStyleType:'disc'}}>{skill}</li>
+                                        })}</ul>
                                         <div style={{display:'flex'}}>
                                             <button className="btn btn-primary">Accept</button>
                                             <button className="btn btn-danger">Decline</button>
@@ -75,6 +85,7 @@ class Application extends Component{
                             :'null'}                            
                             </Col>
                             </div>
+                            </Card>
                             )
                     })}
                 </div>
