@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Container, Row, Col} from 'react-bootstrap';
-//import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import avatar from '../images/avatar.png';
 import '../css/Dashboard.css';
 
-class Dashboard extends Component{
-    state = {
-        user:null
+const Dashboard = (props)=>{
+
+    const [user, setUser] = useState(null)
+    const goToJobs = ()=>{
+        props.history.push('/jobs')
     }
-    goToJobs = ()=>{
-        this.props.history.push('/jobs')
-    }
-    componentDidMount(){
-        this.setState({user:JSON.parse(localStorage.getItem('senderUser'))})
-    }
-    render(){
+
+
+    useEffect(()=>{
+        setUser(JSON.parse(localStorage.getItem('senderUser')))
+    },[])
+
         return (
             <div>
                 <Container>
@@ -24,9 +24,9 @@ class Dashboard extends Component{
                             <img src={avatar} height="100px" width="100px" className="image" alt=''/>
                         </div>
                         <div>
-                            <h5><b>Welcome {this.state.user?this.state.user.userName:''}</b></h5>
+                            <h5><b>Welcome {user?user.userName:''}</b></h5>
                             <p>Explore the jobs page where you can hire or be hired.</p>
-                            <button className="btn job-button" onClick={this.goToJobs}>Go to Jobs</button>
+                            <button className="btn job-button" onClick={()=>goToJobs()}>Go to Jobs</button>
                         </div>
                     </div>
                     <Row className="mt-4">
@@ -72,8 +72,6 @@ class Dashboard extends Component{
                 </Container>             
             </div>
                 )
-    }
-
 }
 
 

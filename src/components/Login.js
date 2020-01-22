@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import "../css/Login.css";
-import { FaUser, FaUserLock } from 'react-icons/fa';
+import { FaUserLock } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Top from './Top.js';
 import axios from 'axios';
