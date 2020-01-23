@@ -5,7 +5,8 @@ import Dashboard  from './Dashboard';
 import Profile from './Profile';
 import Jobs from './Jobs';
 import Application from './Application';
-import { FaEnvelope, FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase, FaPowerOff } from 'react-icons/fa';
+import PostJob from './PostJob';
+import { FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase, FaPowerOff } from 'react-icons/fa';
 import { Dropdown } from 'react-bootstrap';
 
 class SideNav extends React.Component {
@@ -91,6 +92,11 @@ class SideNav extends React.Component {
         main: () => <Jobs />
       },
       {
+        path: "/postjob",
+        sidebar: () => <div></div>,
+        main: () => <PostJob />
+      },
+      {
         path: "/application",
         sidebar: () => <div></div>,
         main: () => <Application />
@@ -102,7 +108,7 @@ class SideNav extends React.Component {
         <Router>
           <div className="menuBar">
             <span onClick={this.openNavClick} className="open-nav">
-              &#9776; <FaEnvelope/> Sender
+              &#9776; <FaBriefcase/> Sender
             </span>
             <span style={{float:'right', position:'relative', top:'15px', right:'10px', cursor:'pointer'}}>
             <Dropdown style={{display:'inline', position:'relative', bottom:'10px'}}>
@@ -128,7 +134,8 @@ class SideNav extends React.Component {
           </a>
           <Link to={`/dashboard`} onClick={this.closeNav} className="nav-link"><FaAlignJustify /> Dashboard</Link>
           <Link to={`/profile`} onClick={this.closeNav} className="nav-link"><FaUser /> Profile</Link>
-          <Link to={'/jobs'} onClick={this.closeNav} className="nav-link"><FaBriefcase /> Jobs</Link>
+          <Link to={'/jobs'} onClick={this.closeNav} className="nav-link"><FaBriefcase /> View Jobs</Link>
+          <Link to={`/postjob`} onClick={this.closeNav} className="nav-link"><FaBriefcase /> Post Job</Link>
           <Link to={`/application`} onClick={this.closeNav} className="nav-link"><FaArchive /> Applications</Link>
           <Link to={'/'} onClick={this.closeNav} className="nav-link"><FaHome /> Home</Link>
         </div>

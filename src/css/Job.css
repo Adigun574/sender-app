@@ -9,3 +9,40 @@
     text-align:center;
     padding:5px;
 }
+.card-employer{
+    color:#6C63FF !important;
+    font-weight:bold;
+    width:20%;
+    margin: 0;
+    /* position: relative;
+    top: 30px; */
+    /* -ms-transform: translateY(-50%);
+    transform: translateY(-50%); */
+}
+.job-card{
+    border-left:5px solid #6C63FF;
+    box-shadow:2px 2px 2px rgb(158, 157, 157);
+}
+.card-job-title{
+    height:30%;
+}
+.apply-button{
+    background-color: #6C63FF;
+    color:white;
+    border-radius:2px;
+    padding:2px 2px !important;
+}
+.post-job-button{
+    width:30%;
+    margin:auto;
+}
+.select-category{
+    width:85% !important;
+    margin:auto !important;
+}
+.job-body{
+    background-image: linear-gradient(0deg, rgb(245, 243, 243),rgb(236, 234, 234));
+    /* margin:-25px 0; */
+    height:100vh;
+    padding-top:10px;
+}

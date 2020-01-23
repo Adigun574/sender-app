@@ -63,16 +63,18 @@ class Application extends Component{
                             {this.state.applications[index] ? this.state.applications[index].map(application=>{
                                 return <div key={application._id}>
                                     <Col sm={6}>
-                                        <Card>
+                                        <Card className="p-2">
                                         <div className="image-name">
-                                            <img src={avatar} height="150px" width="150px" alt='' className="image"/>  
-                                            <h6 className="application-name">{application.applicant.firstName} {application.applicant.lastName}</h6>
+                                            <img src={avatar} height="70px" width="70px" alt='' className="image"/>  
+                                            <div className="application-name">
+                                                <h6>{application.applicant.firstName} {application.applicant.lastName}</h6>
+                                                <h6><FaMapMarkerAlt/> {application.applicant.location}</h6>
+                                            </div>
                                         </div>
-                                        <h6><FaMapMarkerAlt/> {application.applicant.location}</h6>
                                         <h6>{application.applicant.email}</h6>
                                         <h6>{application.applicant.phone}</h6>
                                         <ul>{application.applicant.skills.map(skill=>{
-                                            return <li key={skill} style={{listStyleType:'disc'}}>{skill}</li>
+                                            return <li key={skill} style={{listStyleType:'disc', display:'inline-block'}}>{skill} </li>
                                         })}</ul>
                                         <div style={{display:'flex'}}>
                                             <button className="btn btn-primary">Accept</button>

@@ -33,6 +33,7 @@ ul{
     color:rgb(155, 153, 153)
 }
 .body{
-    background-color:rgb(233, 230, 230);
+    /* background-color:rgb(233, 230, 230) !important; */
+    background-image: linear-gradient(0deg, rgb(245, 243, 243),rgb(236, 234, 234));
     padding-top:10px
 }

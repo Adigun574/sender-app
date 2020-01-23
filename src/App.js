@@ -6,7 +6,6 @@ import Home from './components/Home';
 import Login from './components/Login';
 import Register from './components/register';
 import SideNav from './components/SideNav';
-//import Application from './components/Application';
 import { BrowserRouter, Route } from 'react-router-dom';
 
 function App() {
@@ -22,6 +21,7 @@ function App() {
         <Route exact path="/profile" component={SideNav}></Route>
         <Route exact path="/jobs" component={SideNav}></Route>
         <Route exact path="/application" component={SideNav}></Route>
+        <Route exact path="/postjob" component={SideNav}></Route>
       </BrowserRouter>
     </div>
   );

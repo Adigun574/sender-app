@@ -17,7 +17,7 @@ const Dashboard = (props)=>{
     },[])
 
         return (
-            <div>
+            <div className="dashboard-body">
                 <Container>
                     <div className="dashboard-top mt-4">
                         <div className="mr-4">
