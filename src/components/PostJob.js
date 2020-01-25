@@ -76,13 +76,13 @@ const PostJob = ()=>{
     const postJob = () =>{
         setIsLoading(true)
         console.log(job)
-        // axios.post('http://localhost:5000/jobs/add',job)
-        // .then(res=>{
-        //     console.log(res)
-        // })
-        // .catch(err=>{
-        //     console.log(err)
-        // })
+        axios.post('http://localhost:5000/jobs/add',job)
+        .then(res=>{
+            console.log(res)
+        })
+        .catch(err=>{
+            console.log(err)
+        })
 
     }
     const getProfile = () =>{

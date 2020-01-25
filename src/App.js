@@ -22,6 +22,7 @@ function App() {
         <Route exact path="/jobs" component={SideNav}></Route>
         <Route exact path="/application" component={SideNav}></Route>
         <Route exact path="/postjob" component={SideNav}></Route>
+        <Route exact path="/applicantsapplication" component={SideNav}></Route>
       </BrowserRouter>
     </div>
   );
