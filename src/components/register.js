@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaUser } from 'react-icons/fa';
 import Top from './Top.js';
 import axios from 'axios';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Toast } from 'react-bootstrap';
 import "../css/register.css";
 import { Link } from 'react-router-dom';
 import Loader from "./Loader";
@@ -23,6 +23,8 @@ const Register = (props)=>{
     const [userNameRequired,setUserNameRequired] = useState(false)
     const [emailRequired,setEmailRequired] = useState(false)
     const [passwordRequired,setPasswordRequired] = useState(false)
+    const [show, setShow] = useState(false)
+    const [showFail, setShowFail] = useState(false)
 
     const signup = ()=>{
         setIsLoading(true)
@@ -65,10 +67,14 @@ const Register = (props)=>{
             //console.log(registrationDetails)
             axios.post('http://localhost:5000/users/register',registrationDetails)
             .then(res=>{
-                props.history.push('/dashboard')
+                setShow(true)
                 setIsLoading(false)
+                setTimeout(()=>{
+                    props.history.push('/dashboard')
+                },2000)
             })
             .catch(err=>{
+                setShowFail(true)
                 setIsLoading(false)
             })
         }
@@ -141,9 +147,22 @@ const Register = (props)=>{
     return (
         <div>
             <Top />
+            <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide className="toaster">
+                <Toast.Header>
+                    <strong className="mr-auto">Success!!!</strong>
+                    <small></small>
+                </Toast.Header>
+                <Toast.Body>Congrats! Your profile has been created.</Toast.Body>
+            </Toast>
+            <Toast onClose={() => setShowFail(false)} show={showFail} delay={3000} autohide className="toaster">
+                <Toast.Header>
+                    <strong className="mr-auto">Oops!!!</strong>
+                    <small></small>
+                </Toast.Header>
+                <Toast.Body>Failed! Something went wrong.</Toast.Body>
+            </Toast>
         <div className="body">
-        <h3 className="login-text">Signup</h3>
-        <Container>
+        <Container className="mt-4">
             <Row>
             <Col md={4} className="mr-4">
             <div className="loginForm">

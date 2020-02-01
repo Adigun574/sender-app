@@ -7,6 +7,7 @@ import Jobs from './Jobs';
 import Application from './Application';
 import PostJob from './PostJob';
 import ApplicantsApplication from './ApplicantsApplication';
+import VisitProfile from './VisitProfile';
 import { FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase, FaPowerOff } from 'react-icons/fa';
 import { Dropdown } from 'react-bootstrap';
 
@@ -54,6 +55,9 @@ class SideNav extends React.Component {
     this.props.history.push('')
   }
 
+  handleNavigateToProfile = ()=>{
+    this.props.history.push('/profile')
+  }
   componentDidMount(){
     this.setState({user:JSON.parse(localStorage.getItem('senderUser'))})
   }
@@ -106,6 +110,11 @@ class SideNav extends React.Component {
         path: "/applicantsapplication",
         sidebar: () => <div></div>,
         main: () => <ApplicantsApplication />
+      },
+      {
+        path: "/visitprofile/:profileemail",
+        sidebar: () => <div></div>,
+        main: () => <VisitProfile />
       }
     ];
 
@@ -116,9 +125,9 @@ class SideNav extends React.Component {
             <span onClick={this.openNavClick} className="open-nav">
               &#9776; <FaBriefcase/> Sender
             </span>
-            <span style={{float:'right', position:'relative', top:'15px', right:'10px', cursor:'pointer'}}>
+            <span className="mr-4" style={{float:'right', position:'relative', top:'15px', right:'10px', cursor:'pointer'}}>
             <Dropdown style={{display:'inline', position:'relative', bottom:'10px'}}>
-              <Dropdown.Toggle>
+              <Dropdown.Toggle className="logout-button">
                 <FaUser/>
               </Dropdown.Toggle>
 
@@ -127,7 +136,7 @@ class SideNav extends React.Component {
               </Dropdown.Menu>
             </Dropdown>
             {/* <FaUser/>   */}
-            {this.state.user? this.state.user.userName:''}</span>
+            <b className="ml-2" onClick={this.handleNavigateToProfile}>{this.state.user? this.state.user.userName:''}</b></span>
           </div>
         <div
           onClick={this.navCoverClick}

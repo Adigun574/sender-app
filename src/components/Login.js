@@ -45,9 +45,8 @@ const Login = (props) =>{
             <div>
             <Top />
             <div className="body">
-            <h3 className="login-text">Login</h3>
             <form>
-                <Container>
+                <Container className="mt-4">
                     <Row>
                         <Col md={4} className="mr-4">
                             <div className="loginForm">
@@ -71,7 +70,6 @@ const Login = (props) =>{
                                         <small className="form-label remember">Remember Me</small>
                                     </div>
                                 </div>
-                                {/* <Loader className="mb-4"/> */}
                                 {loading?<Loader/>:null}
                                 <div>
                                     <h3 className="login" onClick={()=>login()}>Login</h3>

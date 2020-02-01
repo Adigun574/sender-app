@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Card, Button, Container, Row, Col, Form, Toast } from 'react-bootstrap';
 import '../css/Job.css';
 import axios from 'axios';
 import Loader from './Loader';
@@ -24,7 +24,7 @@ const PostJob = ()=>{
             posterEmail:user.email,
             datePosted:date,
             employer:'',
-            category:''
+            category:'Others'
     })
     const [jobs, setJobs] = useState([])
     const [bidding, setBidding] = useState({
@@ -33,6 +33,9 @@ const PostJob = ()=>{
             status:'pending',
             applicant:null
     })
+    const [show, setShow] = useState(false)
+    const [showFail, setShowFail] = useState(false)
+    const [incompleteDetails, setIncompleteDetails] = useState(false)
     const handleShowToast = ()=>{
         setShowToast(true)
     }
@@ -74,15 +77,25 @@ const PostJob = ()=>{
         }
     }
     const postJob = () =>{
-        setIsLoading(true)
-        console.log(job)
-        axios.post('http://localhost:5000/jobs/add',job)
-        .then(res=>{
-            console.log(res)
-        })
-        .catch(err=>{
-            console.log(err)
-        })
+        if(job.title==='' | job.location==='' |job.employer===''){
+            setIncompleteDetails(true)
+        }
+        else{
+            setIncompleteDetails(false)
+            setIsLoading(true)
+            console.log(job)
+            axios.post('http://localhost:5000/jobs/add',job)
+            .then(res=>{
+                console.log(res)
+                setShow(true)
+                setIsLoading(false)
+            })
+            .catch(err=>{
+                console.log(err)
+                setShowFail(true)
+                setIsLoading(false)
+            })
+        }
 
     }
     const getProfile = () =>{
@@ -107,20 +120,35 @@ const PostJob = ()=>{
     },[])
     return (
         <div className="job-body">
+                <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide className="toaster">
+                    <Toast.Header>
+                        <strong className="mr-auto">Success!!!</strong>
+                        <small></small>
+                    </Toast.Header>
+                    <Toast.Body>Congrats! Job posted successfully.</Toast.Body>
+                </Toast>
+                <Toast onClose={() => setShowFail(false)} show={showFail} delay={3000} autohide className="toaster">
+                    <Toast.Header>
+                        <strong className="mr-auto">Oops!!!</strong>
+                        <small></small>
+                    </Toast.Header>
+                    <Toast.Body>Failed! Something went wrong.</Toast.Body>
+                </Toast>
                     <h3 className="text-center mt-4"><b>Post A Job</b></h3>
                     <Container className="mt-4">
                         <Card className="p-4">
+                        {incompleteDetails?<h5 className="text-danger">Please fill out mandatory fields</h5>:null}
                         <Form>
                             <Row>
                                 <Col sm={6}>
                             <Form.Group controlId="formGridJt">
-                                <Form.Label>Job Title</Form.Label>
+                                <Form.Label>Job Title<small className="text-danger"><b>*</b></small></Form.Label>
                                 <Form.Control placeholder="Plumber" 
                                     onChange={(e)=>handleJobTitle(e.target.value)} value={job.title}/>
                             </Form.Group>
 
                             <Form.Group controlId="formGridEmployer">
-                                <Form.Label>Employer</Form.Label>
+                                <Form.Label>Employer<small className="text-danger"><b>*</b></small></Form.Label>
                                 <Form.Control placeholder="Employer" 
                                 onChange={(e)=>handleEmployer(e.target.value)} value={job.employer}/>
                             </Form.Group>
@@ -134,8 +162,23 @@ const PostJob = ()=>{
                             <Form.Group controlId="formGridCategory">
                                 <Form.Label>Category</Form.Label><br></br>
                                 <select className="form-control" onChange={(e)=>handleCategory(e.target.value)}>
-                                    <option value="Architecture">Architecture</option>
-                                    <option value="Banking">Banking</option>
+                                    <option value="Agriculture, food and natural resources">Agriculture, Food and Natural Resources</option>
+                                    <option value="Architecture and Construction">Architecture and Construction</option>
+                                    <option value="Arts and Communications">Arts and Communications</option>
+                                    <option value="Business Management and Administration">Business Management and Administration</option>
+                                    <option value="Education and Training">Education and Training</option>
+                                    <option value="Finance">Finance</option>
+                                    <option value="Government and Public Administration">Government and Public Administration</option>
+                                    <option value="Health Science">Health Science</option>
+                                    <option value="Hospitality and Tourism">Hospitality and Tourism</option>
+                                    <option value="Human Services">Human Services</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Law, Public Safety, Corrections and Security">Law, Public Safety, Corrections and Security</option>
+                                    <option value="Manufacturing">Manufacturing</option>
+                                    <option value="Marketing, Sales and Service">Marketing, Sales and Service</option>
+                                    <option value="Science, Technology and Engineering">Science, Technology and Engineering</option>
+                                    <option value="Software Development">Software Development</option>
+                                    <option value="Transportation, Distribution and Logistics">Transportation, Distribution and Logistics</option>
                                     <option value="Others">Others</option>
                                 </select>
                             </Form.Group>
@@ -143,7 +186,7 @@ const PostJob = ()=>{
 
                                 <Col sm={6}>
                             <Form.Group controlId="formGridSell">
-                                <Form.Label>Location</Form.Label>
+                                <Form.Label>Location<small className="text-danger"><b>*</b></small></Form.Label>
                                 <Form.Control placeholder="Lekki, Lagos State" 
                                 onChange={(e)=>handleLocation(e.target.value)} value={job.location}/>
                             </Form.Group>

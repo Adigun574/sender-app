@@ -1,14 +1,20 @@
 import React, { Component } from 'react';
 import { Card, Container, Col, Row } from 'react-bootstrap';
-import axios from 'axios'
-import '../css/application.css'
+import axios from 'axios';
+import '../css/application.css';
+import FullpageLoader from './FullpageLoader.js';
 
 const user = JSON.parse(localStorage.getItem('senderUser'))
 
 class ApplicantsApplication extends Component{
-    state={
-        applicantsApplication:[]
+    goToJobs = ()=>{
+        this.props.history.push('/jobs')
     }
+    state={
+        // applicantsApplication:[]
+        applicantsApplication:null
+    }
+    
     componentDidMount(){
         this.getApplicantsApplication()
     }
@@ -27,9 +33,19 @@ class ApplicantsApplication extends Component{
     
     render(){
         return (
+        <div>
+            {this.state.applicantsApplication?
             <div>
-                <h2>Applied Jobs</h2>   
+                <div>
+                    <h2 className="mt-2" style={applicantHeader}>Applied Jobs</h2>   
+                </div>
                 <Container>
+                    {this.state.applicantsApplication.length>0 ?
+                    <div></div>:
+                    <div style={noApplication}>
+                        <h3 className="text-muted">You have no job applications yet!!!</h3>
+                        <button className="btn" style={jobButton} onClick={this.goToJobs}>Go to Jobs</button>
+                    </div>}
                 <Row>
                 {this.state.applicantsApplication.map(app=>{
                     return(                     
@@ -49,8 +65,11 @@ class ApplicantsApplication extends Component{
                     )
                 })}  
                 </Row>
-                </Container>      
-            </div>                   
+                </Container> 
+                }     
+            </div> 
+            :<FullpageLoader/>}
+        </div>                  
                 )
     }
 
@@ -80,6 +99,25 @@ const declinedStyle = {
 const statusStyle = {
     // transform: 'rotate(-45deg)',
     fontSize:'12px'
+}
+
+const applicantHeader = {
+    textAlign:'center',
+    color:'#6C63FF'
+}
+const jobButton = {
+    backgroundColor:'#6C63FF',
+    color:'white',
+    left: '50%',
+    transform: 'translateY(-50%)',
+}
+const noApplication = {
+    position: 'absolute',
+    top: '40%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    textAlign:'center'
+
 }
 
 const status = (stat)=>{

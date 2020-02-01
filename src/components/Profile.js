@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { FaStar, FaLinkedin, FaAddressCard, FaCertificate, FaEnvelope, 
-    FaMapMarkerAlt, FaUserEdit, FaRegThumbsDown, FaWhatsapp, FaGenderless, FaCalendar
+    FaMapMarkerAlt, FaUserEdit, FaRegThumbsDown, FaWhatsapp, FaGenderless, FaCalendar, FaEdit
 } from 'react-icons/fa';
-import { Container, Row, Col, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Modal, Form, Toast } from 'react-bootstrap';
 import avatar from '../images/avatar.png';
 import '../css/Profile.css';
 import axios from 'axios';
+import FullpageLoader from './FullpageLoader.js';
+import Loader from './Loader';
+import ToggleRadioButtonUnchecked from 'material-ui/SvgIcon';
 
 class Profile extends Component{
     state = {
@@ -29,7 +32,13 @@ class Profile extends Component{
             skills:[],
             jobDescription:'',
             sellYourself:'',
-        }
+            imgUrl:''
+        },
+        loader:false,
+        successToast:false,
+        failureToast:false,
+        showEditImage:false,
+        displayImageUrl:null
     }
     handleShowPersonalModal = () =>{
         this.setState({
@@ -129,6 +138,9 @@ class Profile extends Component{
         this.setState({profile:e.target.value})
         this.setState({profile})
     }
+    handleImgUrl = ()=>{
+
+    }
     handleInput = (e) =>{
         // const nam = e.target.name
         // const val = e.target.value
@@ -136,13 +148,58 @@ class Profile extends Component{
         //     profile:{[nam]:val}
         // })
     }
+    handleCloseToast = () =>{
+        this.setState({successToast:false})
+        this.setState({failureToast:false})
+    }
+    handleShowEditImage = ()=>{
+        this.setState({showEditImage:true})
+    }
+    selectImage=(e)=>{
+        const file = e.target.files[0]
+        let imagePath = URL.createObjectURL(file)
+        console.log(imagePath)
+        this.setState({displayImageUrl:URL.createObjectURL(file)})
+        //image upload
+        const CLOUDINARY_URL="https://api.cloudinary.com/v1_1/dk0ydrw94/upload"
+        const CLOUDINARY_UPLOAD_PRESET="ym00sgsu"
+        let formData = new FormData()
+        formData.append('file',file)
+        formData.append('upload_preset',CLOUDINARY_UPLOAD_PRESET)
+        axios({
+            url:CLOUDINARY_URL,
+            method:'post',
+            headers:{
+                'Content-Type':'application/x-www-form-urlencoded'
+            },
+            data:formData
+        })
+        .then(res=>{
+            console.log(res)           
+            let profile = {...this.state.profile}
+            profile.imgUrl = res.data.secure_url
+            this.setState({profile:res.data.secure_url})
+            this.setState({profile},
+            this.editPersonalModal())            
+        })
+        .catch(err=>{
+            console.log(err)
+        })
+    }
     editPersonalModal = () =>{
-        console.log(this.state.profile)
+        this.setState({loader:true})
+        console.log('profile to update',this.state.profile)
         axios.post('http://localhost:5000/profiles/edit',this.state.profile)
         .then(res=>{
             console.log(res)
+            this.setState({loader:false})
+            this.setState({showPersonalModal:false})
+            this.setState({showProfessionalModal:false})
+            this.setState({successToast:true})
         })
         .catch(err=>{
+            this.setState({loader:false})
+            this.setState({failureToast:true})
             console.log(err)
         })
     }
@@ -154,7 +211,8 @@ class Profile extends Component{
         if(user){
             axios.post('http://localhost:5000/profiles/getone',{email:user.email})
             .then(res=>{
-                this.setState({profile:res.data.msg})
+                this.setState({profile:res.data.msg},
+                this.setState({displayImageUrl:this.state.profile.imgUrl}))
             })
             .catch(err=>{
                 console.log(err)
@@ -170,10 +228,30 @@ class Profile extends Component{
         const nil = 'Not Set'  
         return (
             this.state.profile?<div className="body">
+                <Toast onClose={this.handleCloseToast} show={this.state.successToast} delay={3000} autohide className="toaster">
+                <Toast.Header>
+                    <strong className="mr-auto">Success!!!</strong>
+                    <small></small>
+                </Toast.Header>
+                <Toast.Body>Congrats! Your profile has been edited.</Toast.Body>
+                </Toast>
+                <Toast onClose={this.handleCloseToast} show={this.state.failureToast} delay={3000} autohide className="toaster">
+                    <Toast.Header>
+                        <strong className="mr-auto">Oops!!!</strong>
+                        <small></small>
+                    </Toast.Header>
+                    <Toast.Body>Failed! Something went wrong.</Toast.Body>
+                </Toast>
                 <Container className="mt-4">
                 <Row>
                     <Col sm={4} style={{borderRight:'1px solid rgb(155, 153, 153)'}}>
-                        <img src={avatar} alt="wallet" height="150px" width="150px" className="image"/>
+                        <div style={{display:'flex', position:'relative'}}>
+                            {!this.state.displayImageUrl?<img src={avatar} alt="wallet" height="150px" width="150px" className="image" onClick={this.handleShowEditImage}/>
+                                :<img src={this.state.displayImageUrl} alt="profile picture" height="150px" width="150px" className="image" onClick={this.handleShowEditImage}/>
+                            }
+                            <h1 className="edit-pen" onClick={this.handleShowEditImage}><FaEdit/></h1>
+                        </div>
+                        {this.state.showEditImage?<input type="file" onChange={(e)=>{this.selectImage(e)}}/>:null}
                         <h4><b>{profile.firstName} {profile.lastName}</b></h4>
                         <hr/>
                         <h5 className="name"><b><FaCertificate /> {profile.jobTitle?profile.jobTitle : nil}</b></h5>
@@ -319,6 +397,7 @@ class Profile extends Component{
             </Form>
         </Modal.Body>
         <Modal.Footer>
+          {this.state.loader?<Loader/>:null}
           <Button variant="secondary" onClick={this.handleClosePersonalModal}>
             Close
           </Button>
@@ -371,6 +450,7 @@ class Profile extends Component{
         </Form>
         </Modal.Body>
         <Modal.Footer>
+          {this.state.loader?<Loader/>:null}
           <Button variant="secondary" onClick={this.handleCloseProfessionalModal}>
             Close
           </Button>
@@ -381,7 +461,8 @@ class Profile extends Component{
       </Modal>
 
       {/* PROFESSIONAL MODAL ENDS */}
-            </div>:<div><h1>LOADER</h1></div>
+            </div>
+            :<FullpageLoader/>
                 )
     }
 

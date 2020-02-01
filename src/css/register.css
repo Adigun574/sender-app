@@ -49,5 +49,10 @@
     height:130vh;
     margin-top:0 !important; 
     }
+    .toaster{
+        position: absolute;
+        z-index:2;
+        right:0;
+    }
   
   

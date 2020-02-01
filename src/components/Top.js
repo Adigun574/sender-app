@@ -10,8 +10,8 @@ const Top = ()=>{
 }
 
 const heading={
-    backgroundColor:'#eee',
-    color:'#6C63FF',
+    backgroundColor:'#6C63FF',
+    color:'#eee',
     padding:'10px',
     marginBottom:'0'
 }

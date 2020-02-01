@@ -23,6 +23,7 @@ function App() {
         <Route exact path="/application" component={SideNav}></Route>
         <Route exact path="/postjob" component={SideNav}></Route>
         <Route exact path="/applicantsapplication" component={SideNav}></Route>
+        <Route exact path="/visitprofile/:profileemail" component={SideNav}></Route>
       </BrowserRouter>
     </div>
   );

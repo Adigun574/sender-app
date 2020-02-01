@@ -9,3 +9,31 @@
 .application-name{
     margin-top:10px;
 }
+.application-card-body{
+    width:80%; 
+    margin-right:auto;
+    margin-left:auto;
+}
+.no-application{
+    height:200px;
+    text-align:center;
+    width:100%;
+    margin-left:auto;
+    margin-right:auto;
+}
+.application-header{
+    color:#6C63FF;
+    text-align:center;
+    width:50%;
+    margin:auto;
+}
+.application-body{
+    margin:auto
+}
+.application-click-profile{
+    cursor:pointer
+}
+.message-box{
+    width:100%;
+    margin:auto;
+}
