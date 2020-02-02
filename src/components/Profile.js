@@ -175,12 +175,17 @@ class Profile extends Component{
             data:formData
         })
         .then(res=>{
+            // let profile = {...this.state.profile}
+            // profile.firstName = e.target.value
+            // this.setState({profile:e.target.value})
+            // this.setState({profile})
+            
             console.log(res)           
             let profile = {...this.state.profile}
             profile.imgUrl = res.data.secure_url
             this.setState({profile:res.data.secure_url})
-            this.setState({profile},
-            this.editPersonalModal())            
+            this.setState({profile})
+            this.editPersonalModal()           
         })
         .catch(err=>{
             console.log(err)
@@ -211,8 +216,8 @@ class Profile extends Component{
         if(user){
             axios.post('http://localhost:5000/profiles/getone',{email:user.email})
             .then(res=>{
-                this.setState({profile:res.data.msg},
-                this.setState({displayImageUrl:this.state.profile.imgUrl}))
+                this.setState({profile:res.data.msg})
+                this.setState({displayImageUrl:this.state.profile.imgUrl})
             })
             .catch(err=>{
                 console.log(err)
@@ -249,6 +254,10 @@ class Profile extends Component{
                             {!this.state.displayImageUrl?<img src={avatar} alt="wallet" height="150px" width="150px" className="image" onClick={this.handleShowEditImage}/>
                                 :<img src={this.state.displayImageUrl} alt="profile picture" height="150px" width="150px" className="image" onClick={this.handleShowEditImage}/>
                             }
+                            {/* {profile.imgUrl | profile.imgUrl!=''?<img src={profile.imgUrl} alt="wallet" height="150px" width="150px" className="image" onClick={this.handleShowEditImage}/>
+                                :<img src={avatar} alt="profile picture" height="150px" width="150px" className="image" onClick={this.handleShowEditImage}/>
+                            } */}
+                            {/* <img src={profile.imgUrl} alt="profile picture" height="150px" width="150px" className="image" onClick={this.handleShowEditImage}/> */}
                             <h1 className="edit-pen" onClick={this.handleShowEditImage}><FaEdit/></h1>
                         </div>
                         {this.state.showEditImage?<input type="file" onChange={(e)=>{this.selectImage(e)}}/>:null}

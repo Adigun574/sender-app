@@ -40,7 +40,9 @@ const Jobs = ()=>{
             applicantEmail:user.email,
             jobId:null,
             status:'pending',
-            applicant:null
+            applicant:null,
+            employer:null,
+            title:null
     })
     const [jobId, setJobId] = useState('')
     const handleShowToast = ()=>{
@@ -53,6 +55,9 @@ const Jobs = ()=>{
         setShowModal(true) 
         setCurrentJob(e)
         setBidding({...bidding, jobId:e._id})
+        setBidding({...bidding, employer:e.employer})
+        setBidding({...bidding, title:e.title})
+        console.log(bidding)
     }
     const handleCloseModal = (e)=>{
         setShowModal(false)

@@ -7,8 +7,9 @@ import Jobs from './Jobs';
 import Application from './Application';
 import PostJob from './PostJob';
 import ApplicantsApplication from './ApplicantsApplication';
+import Messages from './Messages';
 import VisitProfile from './VisitProfile';
-import { FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase, FaPowerOff } from 'react-icons/fa';
+import { FaUser, FaHome, FaAlignJustify, FaArchive, FaBriefcase, FaPowerOff, FaEnvelope } from 'react-icons/fa';
 import { Dropdown } from 'react-bootstrap';
 
 class SideNav extends React.Component {
@@ -115,6 +116,11 @@ class SideNav extends React.Component {
         path: "/visitprofile/:profileemail",
         sidebar: () => <div></div>,
         main: () => <VisitProfile />
+      },
+      {
+        path: "/messages",
+        sidebar: () => <div></div>,
+        main: () => <Messages />
       }
     ];
 
@@ -153,7 +159,7 @@ class SideNav extends React.Component {
           <Link to={`/postjob`} onClick={this.closeNav} className="nav-link"><FaBriefcase /> Post Job</Link>
           <Link to={`/application`} onClick={this.closeNav} className="nav-link"><FaArchive /> Applications</Link>
           <Link to={`/applicantsapplication`} onClick={this.closeNav} className="nav-link"><FaArchive /> Applications Status</Link>
-          <Link to={'/'} onClick={this.closeNav} className="nav-link"><FaHome /> Home</Link>
+          <Link to={'/messages'} onClick={this.closeNav} className="nav-link"><FaEnvelope /> Messages</Link>
         </div>
         <Switch>
             {routes.map((route, index) => (

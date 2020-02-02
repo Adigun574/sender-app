@@ -1,0 +1,14 @@
+.message-accordion{
+    border-left:2px solid #6C63FF !important;
+    box-shadow:2px 2px 5px rgb(202, 200, 200);
+}
+.message-header{
+    height:30px !important;
+    color: #6C63FF;
+    padding:0 0 0 10px !important;
+}
+.clear-button{
+    position:fixed;
+    bottom:10px;
+    right:20px;
+}

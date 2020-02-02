@@ -56,8 +56,9 @@ class ApplicantsApplication extends Component{
                                     {status(app.status)}
                                 </div>
                                 <div>
-                                    <p>{app.applicant.firstName}</p>
-                                    <b>{app.jobId}</b><br></br>
+                                    {/* <p>{app.applicant.firstName}</p> */}
+                                    {app.employer?<div><p>{app.employer}</p></div>:<div><b>NIL</b></div>}
+                                    {app.title?<div><b>{app.title}</b><br></br></div>:<div><b>NIL</b></div>}
                                 </div>
                             </div>
                         </Card>
@@ -65,6 +66,7 @@ class ApplicantsApplication extends Component{
                     )
                 })}  
                 </Row>
+                <button className="btn btn-danger" style={clearButton}>Clear Applications</button>
                 </Container> 
                 }     
             </div> 
@@ -118,6 +120,11 @@ const noApplication = {
     transform: 'translate(-50%, -50%)',
     textAlign:'center'
 
+}
+const clearButton = {
+        position:'fixed',
+        bottom:'10px',
+        right:'20px'
 }
 
 const status = (stat)=>{

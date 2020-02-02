@@ -20,7 +20,11 @@ class Application extends Component{
         showMessageModal:false,
         postingMessageLoading:false,
         showToaster:false,
-        showToasterFail:false
+        showToasterFail:false,
+        message:''
+    }
+    handleMessageChange = (e)=>{
+        this.setState({message:e.target.value})
     }
     handleAccept = (e)=>{
         e.status='accepted'
@@ -48,9 +52,25 @@ class Application extends Component{
     sendMessage = ()=>{
         this.setState({showMessageModal:true})
     }
-    postMessage = ()=>{
+    postMessage = (application)=>{
         this.setState({showMessageModal:false})
         this.setState({postingMessageLoading:true})
+        let obj = {
+            senderUserName:user.userName,
+            senderEmail:user.email,
+            message:this.state.message,
+            receiverEmail:application.applicantEmail
+        }
+        console.log(obj)
+        axios.post(`http://localhost:5000/messages/sendmessage`,obj)
+        .then(res=>{
+            this.setState({postingMessageLoading:false})
+            this.handleShowToaster()
+        })
+        .catch(err=>{
+            this.setState({postingMessageLoading:false})
+            this.handleShowToasterFail()
+        })
     }
     handleShowToaster =()=>{
         this.setState({showToaster:true})
@@ -151,7 +171,11 @@ class Application extends Component{
                                         <div className="application-body">
                                             <div className="application-click-profile" onClick={()=>{this.viewProfile(application.applicant.email)}}>
                                                 <div className="image-name">
-                                                    <img src={avatar} height="70px" width="70px" alt='' className="image"/>  
+                                                    {/* <img src={avatar} height="70px" width="70px" alt='' className="image"/> */}
+                                                    {application.applicant.imgUrl?
+                                                    <img src={application.applicant.imgUrl} height="70px" width="70px" alt='' className="image"/>  
+                                                    :<img src={avatar} height="70px" width="70px" alt='' className="image"/>
+                                                    }  
                                                     <div className="application-name">
                                                         <h6>{application.applicant.firstName} {application.applicant.lastName}</h6>
                                                         <h6><FaMapMarkerAlt/> {application.applicant.location}</h6>
@@ -169,6 +193,20 @@ class Application extends Component{
                                                 <button className="btn btn-info" onClick={this.sendMessage}><FaEnvelope/></button>
                                             </div>
                                         </div>
+                                        <Modal show={this.state.showMessageModal} onHide={this.closeMessageModal}>
+                                            <Modal.Header closeButton>
+                                            <Modal.Title><FaEnvelopeOpen/> Send Message To applicant</Modal.Title>
+                                            </Modal.Header>
+                                            <Modal.Body>
+                                                <textarea cols="40" rows="5" className="message-box" onChange={(e)=>{this.handleMessageChange(e)}}></textarea>
+                                            </Modal.Body>
+                                            <Modal.Footer>
+                                            {this.state.postingMessageLoading?<Loader/>:null}
+                                            <Button variant="primary" onClick={()=>{this.postMessage(application)}}>
+                                                Send
+                                            </Button>
+                                            </Modal.Footer>
+                                        </Modal>
                                         </Card>
                                     </Col>
                                 )
@@ -182,24 +220,11 @@ class Application extends Component{
                             )
                     })}
                 </div>
+                <button className="btn btn-danger clear-button">Clear Applications</button>
                 </Container>  
                 :<div className="mt-4"><h3 className="text-muted text-center mt-4">You haven't posted any job!!!</h3></div>}
             </div>  
             :<FullpageLoader/>}
-            <Modal show={this.state.showMessageModal} onHide={this.closeMessageModal}>
-                <Modal.Header closeButton>
-                <Modal.Title><FaEnvelopeOpen/> Send Message To applicant</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <textarea cols="40" rows="5" className="message-box"></textarea>
-                </Modal.Body>
-                <Modal.Footer>
-                {this.state.postingMessageLoading?<Loader/>:null}
-                <Button variant="primary" onClick={this.postMessage}>
-                    Send
-                </Button>
-                </Modal.Footer>
-            </Modal>
 
         </div>                 
                 )
